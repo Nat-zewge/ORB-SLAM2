@@ -187,6 +187,7 @@ For a monocular input from topic `/camera/image_raw` run node ORB_SLAM2/Mono. Yo
 
   ```
   rosrun ORB_SLAM2 Mono PATH_TO_VOCABULARY PATH_TO_SETTINGS_FILE
+
   ```
   
 ### Running Monocular Augmented Reality Demo
@@ -197,6 +198,29 @@ The node reads images from topic `/camera/image_raw`.
   rosrun ORB_SLAM2 MonoAR PATH_TO_VOCABULARY PATH_TO_SETTINGS_FILE
   ```
   
+### Running Monocular Node with your own camera
+1) calibrate your camera and put camera parameters in a `.yaml` file. the format should conform to the the one shown for the various datastets `EuRoC.yaml`,`TUMx.yaml` etc.
+2) install usb_cam pacakge in ros: 
+
+ ```
+ sudo apt install ros-kinetic-usb-cam #if you have have ROS-kinetic installed 
+
+ ```
+enter the following commands:
+
+ ```
+ roscore
+ rosrun usb_cam usb_cam_node /usb_cam/image_raw:=/camera/image_raw
+ rosrun ORB_SLAM2 Mono PATH_TO_VOCABULARY PATH_TO_CAMERA_SETTINGS_FILE(i.e the yaml file for your camera)
+ 
+ example: rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt Examples/Monocular/TUM1.yaml
+	
+```
+instead of `TUM1.yaml` use the .yaml file for your camera.
+
+
+
+
 ### Running Stereo Node
 For a stereo input from topic `/camera/left/image_raw` and `/camera/right/image_raw` run node ORB_SLAM2/Stereo. You will need to provide the vocabulary file and a settings file. If you **provide rectification matrices** (see Examples/Stereo/EuRoC.yaml example), the node will recitify the images online, **otherwise images must be pre-rectified**.
 
