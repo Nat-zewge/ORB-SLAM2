@@ -71,27 +71,25 @@ int main(int argc, char **argv)
     ros::NodeHandle nh("~");
     tf::TransformBroadcaster br;
 
-     //if(argc != 3)
-     //{
-     //    cerr << endl << "Usage: rosrun ORB_SLAM2 RGBD path_to_vocabulary path_to_settings" << endl;        
-     //    ros::shutdown();
-     //    return 1;
-    // }    
+     if(argc != 3)
+     {
+         cerr << endl << "Usage: rosrun ORB_SLAM2 RGBD path_to_vocabulary path_to_settings" << endl;        
+         ros::shutdown();
+         return 1;
+     }    
     
-    string strSettingsFile = "/home/natnael/git/subgit/ORB_SLAM2/Examples/ROS/ORB_SLAM2/Asus.yaml";
-    string strVocFile = "/home/natnael/git/subgit/ORB_SLAM2/Vocabulary/ORBvoc.txt";
+    
 
     string topic_rgb = "/camera/rgb/image_raw";
     string topic_depth = "/camera/depth/image";
 
-    nh.param<std::string>("strSettingsFile", strSettingsFile, strSettingsFile);
-    nh.param<std::string>("strVocFile", strVocFile, strVocFile);
+    
     nh.param<std::string>("topic_rgb", topic_rgb, topic_rgb);
     nh.param<std::string>("topic_depth", topic_depth, topic_depth);
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    // ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::RGBD,true);
-    ORB_SLAM2::System SLAM(strVocFile, strSettingsFile, ORB_SLAM2::System::RGBD, true);
+    ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::RGBD,true);
+    //ORB_SLAM2::System SLAM(strVocFile, strSettingsFile, ORB_SLAM2::System::RGBD, true);
 
     ImageGrabber igb(&SLAM, nh, &br);
 
